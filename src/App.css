@@ -5,7 +5,8 @@
 }
 
 h1 {
-  color: #333;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 ul {
@@ -20,3 +21,12 @@ li {
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.card {
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente para las tarjetas */
+}
+
+.container-fluid{
+  background-color: rgba(0, 0, 0, 0); /* Fondo blanco semitransparente para las tarjetas */
+}
+
