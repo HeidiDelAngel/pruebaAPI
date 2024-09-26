@@ -1,4 +1,3 @@
-// RandomFact.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -7,24 +6,28 @@ const RandomFact = ({ addToFavorites }) => {
   const [randomLoading, setRandomLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Función para obtener un hecho aleatorio directamente desde la API
   const getRandomFactFromAPI = async () => {
-    setRandomLoading(true);
+    setRandomLoading(true); // Mostrar estado de carga
     try {
       const response = await axios.get('https://cat-fact.herokuapp.com/facts/random');
       const fact = response.data;
+      // Filtrar el hecho para que contenga "cat" o "cats"
       if (fact.text.toLowerCase().includes('cat')) {
-        setRandomFact(fact);
+        setRandomFact(fact);  // Guardar el hecho aleatorio
       } else {
-        await getRandomFactFromAPI();
+        // Si no contiene "cat", buscar otro hecho aleatorio
+        await getRandomFactFromAPI(); // Llamar recursivamente
       }
-      setRandomLoading(false);
+      setRandomLoading(false);  // Desactivar estado de carga
     } catch (error) {
       setError(error);
-      setRandomLoading(false);
+      setRandomLoading(false);  // Desactivar estado de carga
     }
   };
 
   return (
+    //Contenido de la pestaña "Dato Random"
     <div>
       <h1 className="text-center my-4">Get a Random Fact</h1>
       <div className="d-flex justify-content-center">
