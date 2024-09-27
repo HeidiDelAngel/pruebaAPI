@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import RandomFact from './RandomFact';
 import Favorites from './Favorites';
+import Login from './Login.jsx'; // Importa el componente Login
 
 function App() {
   const [facts, setFacts] = useState([]); // Almacena los hechos sobre gatos
@@ -13,6 +14,7 @@ function App() {
   const [bgImage, setBgImage] = useState(''); // Almacenar la imagen de fondo
   const [favorites, setFavorites] = useState([]); // Estado para almacenar favoritos
   const [showNotification, setShowNotification] = useState(false);  // Mostrar notificación de éxito
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de autenticación
 
   // Obtener todos los hechos de gatos al cargar la página
   useEffect(() => {
@@ -67,8 +69,25 @@ function App() {
     setFavorites(favorites.filter((fact) => fact !== factToRemove));
   };
 
+  // Función para manejar el inicio de sesión exitoso
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    setActiveTab('facts'); // Cambiar a la pestaña de hechos después del login
+  };
+
+  // Función para manejar el cierre de sesión
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setActiveTab('login'); // Redirige al login después de cerrar sesión
+  };
+
   return (
     <div className="App" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', minHeight: '100vh' }}>
+      {!isLoggedIn ? (
+        // Mostrar el componente Login si el usuario no ha iniciado sesión
+        <Login onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <>
       {/* Header con pestañas */}
       <nav className="navbar navbar-expand-lg" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: '8px' }}>
         <div className="container-fluid">
@@ -88,6 +107,7 @@ function App() {
                 <button className={`nav-link ${activeTab === 'favorites' ? 'active' : ''}`} onClick={() => handleTabChange('favorites')}>Favorites</button>
               </li>
             </ul>
+            <button className="btn btn-outline-danger ms-auto" onClick={handleLogout}>Logout</button>
           </div>
         </div>
       </nav>
@@ -130,6 +150,8 @@ function App() {
         {/* Pestaña de favoritos */}
         {activeTab === 'favorites' && <Favorites favorites={favorites} removeFromFavorites={removeFromFavorites} />}
       </div>
+      </>
+      )}
     </div>
   );
 }
