@@ -4,7 +4,6 @@ import login from './login.json'; // Asegúrate de tener el archivo en la misma 
 const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +16,7 @@ const Login = ({ onLoginSuccess }) => {
     if (user) {
       onLoginSuccess(); // Llamar a la función de éxito si las credenciales coinciden
     } else {
-      setError('Incorrect email or password');
+      alert('Incorrect email or password');
     }
   };
 
@@ -45,7 +44,6 @@ const Login = ({ onLoginSuccess }) => {
             required
           />
         </div>
-        {error && <p className="text-danger">{error}</p>}
         <button type="submit" className="btn btn-dark w-100">Login</button>
       </form>
     </div>
